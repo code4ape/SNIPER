@@ -99,7 +99,7 @@ class coco(IMDB):
 
     def _get_ann_file(self):
         """ self.data_path / annotations / instances_train2014.json """
-        prefix = 'instances' if 'test' not in self.image_set else 'image_info'
+        prefix = 'instances'# if 'test' not in self.image_set else 'image_info'
         return os.path.join(self.data_path, 'annotations',
                             prefix + '_' + self.image_set + '.json')
 
@@ -108,10 +108,10 @@ class coco(IMDB):
         image_ids = self.coco.getImgIds()
         return image_ids
 
-    def image_path_from_index(self, index):
-        """ example: images / train2014 / COCO_train2014_000000119993.jpg """
-        filename = 'COCO_%s_%012d.jpg' % (self.data_name, index)
-        image_path = os.path.join(self.data_path, 'images', self.data_name, filename)
+    def image_path_from_index(self, img_path):
+        #""" example: images / train2014 / COCO_train2014_000000119993.jpg """
+        #filename = 'COCO_%s_%012d.jpg' % (self.data_name, index)
+        image_path = os.path.join(self.data_path, 'images', self.data_name, img_path)
         assert os.path.exists(image_path), 'Path does not exist: {}'.format(image_path)
         return image_path
 
@@ -174,6 +174,7 @@ class coco(IMDB):
         im_ann = self.coco.loadImgs(index)[0]
         width = im_ann['width']
         height = im_ann['height']
+        img_path = im_ann['file_name']
 
         annIds = self.coco.getAnnIds(imgIds=index, iscrowd=False)
         objs = self.coco.loadAnns(annIds)
@@ -231,7 +232,7 @@ class coco(IMDB):
 
         flag = True
 
-        roi_rec = {'image': self.image_path_from_index(index),
+        roi_rec = {'image': self.image_path_from_index(img_path),
                    'height': height,
                    'width': width,
                    'boxes': boxes,

@@ -28,7 +28,7 @@ import argparse
 def parser():
     arg_parser = argparse.ArgumentParser('SNIPER training module')
     arg_parser.add_argument('--cfg', dest='cfg', help='Path to the config file',
-    							default='configs/faster/sniper_res101_e2e.yml',type=str)
+    							default='/home/myu/retail_project/SNIPER/configs/faster/sniper_res101_e2e_retail.yml',type=str)
     arg_parser.add_argument('--display', dest='display', help='Number of epochs between displaying loss info',
                             default=100, type=int)
     arg_parser.add_argument('--momentum', dest='momentum', help='BN momentum', default=0.995, type=float)
@@ -101,7 +101,7 @@ if __name__ == '__main__':
 
     shape_dict = dict(train_iter.provide_data_single + train_iter.provide_label_single)
     sym_inst.infer_shape(shape_dict)
-    arg_params, aux_params = load_param(config.network.pretrained, config.network.pretrained_epoch, convert=True)
+    arg_params, aux_params = {},{} #load_param(config.network.pretrained, config.network.pretrained_epoch, convert=True)
 
     if config.TRAIN.ONLY_PROPOSAL:
         sym_inst.init_weight_rpn(config, arg_params, aux_params)
@@ -142,4 +142,4 @@ if __name__ == '__main__':
     mod.fit(train_iter, optimizer='sgd', optimizer_params=optimizer_params,
             eval_metric=eval_metrics, num_epoch=config.TRAIN.end_epoch, kvstore=config.default.kvstore,
             batch_end_callback=batch_end_callback,
-            epoch_end_callback=epoch_end_callback, arg_params=arg_params, aux_params=aux_params)
+            epoch_end_callback=epoch_end_callback, arg_params=arg_params, aux_params=aux_params, allow_missing=True)
