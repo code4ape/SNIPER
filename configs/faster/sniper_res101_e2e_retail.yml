@@ -38,7 +38,7 @@ network:
   - 24
   NUM_ANCHORS: 21
 dataset:
-  NUM_CLASSES: 200
+  NUM_CLASSES: 201
   dataset: coco
   dataset_path: "../CornerNet-Lite/data/retail"
   image_set: train2019+test2019
@@ -191,7 +191,7 @@ TEST:
   # Number of concurrent jobs used for inference
   # if greater than 1, the roidb is distributed over
   # concurrent jobs to increase throughput
-  CONCURRENT_JOBS: 2
+  CONCURRENT_JOBS: 1
 
   # Valid ranges in each scale (boxes which the square root of their area
   # lie in each range are marked as valid in that scale).
@@ -233,11 +233,11 @@ TEST:
   # before aggregation (when doing multi-scale inference)
   # If False, only final detections are saved to 
   # VISUALIZATION_PATH
-  VISUALIZE_INTERMEDIATE_SCALES: false
+  VISUALIZE_INTERMEDIATE_SCALES: true
 
   # PROPOSAL EXTRACTION FLAGS
   # If true only would extract proposals
-  EXTRACT_PROPOSALS: false
+  EXTRACT_PROPOSALS: true
 
   # The folder path to be used for saving proposals
   PROPOSAL_SAVE_PATH: 'output/proposals'
